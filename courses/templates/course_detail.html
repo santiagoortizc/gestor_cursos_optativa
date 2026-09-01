@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ course.title }} | Detalle del curso</title>
+
+    <!-- Tailwind CSS vía CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-900">
+
+    <!-- Encabezado -->
+    <header class="border-b border-gray-200 bg-white">
+        <div class="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
+            <a
+                href="{% url 'courses' %}"
+                class="inline-flex items-center text-sm font-medium text-gray-500 transition hover:text-gray-900"
+            >
+                ← Volver a cursos
+            </a>
+
+            <div class="mt-4">
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+                    {{ course.title }}
+                </h1>
+
+                <p class="mt-1 text-sm text-gray-500">
+                    Detalle del curso
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+
+        <article class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+
+            <!-- Información principal -->
+            <section class="p-6 sm:p-8">
+
+                <div class="grid gap-6 sm:grid-cols-2">
+
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">
+                            Curso
+                        </p>
+
+                        <h2 class="mt-1 text-lg font-semibold text-gray-900">
+                            {{ course.title }}
+                        </h2>
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">
+                            Nivel
+                        </p>
+
+                        <p class="mt-1 text-lg font-semibold text-gray-900">
+                            {{ course.level }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">
+                            Número de lecciones
+                        </p>
+
+                        <p class="mt-1 text-lg font-semibold text-gray-900">
+                            {{ course.lessons }}
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Separador -->
+            <div class="border-t border-gray-200"></div>
+
+            <!-- Sección de acciones -->
+            <section class="bg-gray-50 px-6 py-5 sm:px-8">
+
+                <div class="flex flex-col gap-3 sm:flex-row sm:justify-end">
+
+                    <a
+                        href="{% url 'courses' %}"
+                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                    >
+                        Volver
+                    </a>
+
+                    <a
+                        href="{% url 'delete_course' course.id %}"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?');"
+                        class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                    >
+                        Eliminar curso
+                    </a>
+
+                </div>
+
+            </section>
+
+        </article>
+
+    </main>
+
+</body>
+</html>
+

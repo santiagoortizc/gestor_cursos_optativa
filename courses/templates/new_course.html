@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nuevo Curso</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-900">
+
+  <!-- Encabezado -->
+  <header class="border-b border-gray-200 bg-white">
+    <div class="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
+
+      <a
+        href="{% url 'courses' %}"
+        class="inline-flex items-center text-sm font-medium text-gray-500 transition hover:text-gray-900"
+      >
+        ← Volver a cursos
+      </a>
+
+      <div class="mt-4">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+          Nuevo Curso
+        </h1>
+
+        <p class="mt-1 text-sm text-gray-500">
+          Completa la información para crear un nuevo curso.
+        </p>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- Contenido principal -->
+  <main class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+
+    <section
+      class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8"
+      aria-labelledby="form-title"
+    >
+
+      <h2 id="form-title" class="sr-only">
+        Formulario para crear un curso
+      </h2>
+
+      <form method="post" class="space-y-6">
+
+        {% csrf_token %}
+
+        <!-- Nombre -->
+        <div>
+          <label
+            for="title"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Título del curso
+          </label>
+
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            placeholder="Ej. Introducción a Python"
+            class="mt-2 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20"
+          >
+        </div>
+
+
+        <!-- Nivel -->
+        <div>
+          <label
+            for="level"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Nivel
+          </label>
+
+          <select
+            id="level"
+            name="level"
+            required
+            class="mt-2 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20"
+          >
+            <option value="">Selecciona un nivel</option>
+            <option value="Principiante">Principiante</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+          </select>
+
+          <p class="mt-2 text-xs text-gray-500">
+            Indica el nivel de dificultad del curso.
+          </p>
+        </div>
+
+
+        <!-- Lecciones -->
+        <div>
+          <label
+            for="lessons"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Número de lecciones
+          </label>
+
+          <input
+            type="number"
+            id="lessons"
+            name="lessons"
+            min="1"
+            required
+            placeholder="Ej. 20"
+            class="mt-2 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20"
+          >
+        </div>
+
+
+        <!-- Botones -->
+        <div class="flex flex-col gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:justify-end">
+
+          <a
+            href="{% url 'courses' %}"
+            class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+          >
+            Cancelar
+          </a>
+
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+          >
+            Crear curso
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

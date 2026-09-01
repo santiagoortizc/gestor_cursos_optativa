@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cursos</title>
+
+    <!-- Tailwind CSS vía CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-900">
+
+    <!-- Encabezado -->
+    <header class="border-b border-gray-200 bg-white">
+        <div class="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+                        Cursos
+                    </h1>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Lista de cursos disponibles.
+                    </p>
+                </div>
+                <a
+                    href="{% url 'new_course' %}"
+                    class="inline-flex items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+                >
+                    + Crear curso
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+
+        {% if courses %}
+            <section aria-labelledby="courses-title">
+
+                <h2 id="courses-title" class="sr-only">
+                    Cursos disponibles
+                </h2>
+
+                <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+                    {% for course in courses %}
+                        <li>
+                            <article
+                                class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                            >
+
+                                <!-- Información del curso -->
+                                <div class="flex-1">
+
+                                    <h3 class="text-lg font-semibold text-gray-900">
+                                        {{ course.title }}
+                                    </h3>
+
+                                    <div class="mt-4 space-y-2 text-sm text-gray-600">
+
+                                        <p>
+                                            <span class="font-medium text-gray-800">
+                                                Nivel:
+                                            </span>
+                                            {{ course.level }}
+                                        </p>
+
+                                        <p>
+                                            <span class="font-medium text-gray-800">
+                                                Lecciones:
+                                            </span>
+                                            {{ course.lessons }}
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                                <!-- Acciones -->
+                                <nav
+                                    aria-label="Acciones del curso {{ course.title }}"
+                                    class="mt-6 flex flex-col gap-2 sm:flex-row"
+                                >
+
+                                    <!-- Detalle -->
+                                    <a
+                                        href="{% url 'course_detail' course.id %}"
+                                        class="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+                                    >
+                                        Ver detalle
+                                    </a>
+
+                                    <!-- Eliminar -->
+                                    <a
+                                        href="{% url 'delete_course' course.id %}"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?');"
+                                        class="inline-flex flex-1 items-center justify-center rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                    >
+                                        Eliminar
+                                    </a>
+
+                                </nav>
+
+                            </article>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </section>
+
+        {% else %}
+
+            <!-- Estado vacío -->
+            <section
+                class="rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
+                aria-labelledby="empty-title"
+            >
+                <h2 id="empty-title" class="text-lg font-semibold text-gray-900">
+                    No hay cursos disponibles
+                </h2>
+
+                <p class="mt-2 text-sm text-gray-500">
+                    Actualmente no existen cursos registrados.
+                </p>
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+</html>
+
