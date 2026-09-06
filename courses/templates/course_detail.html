@@ -144,6 +144,15 @@
                 Lecciones
             </h2>
         </article>
+        {% if lessons %}
+            <p class="mt-1 text-sm text-gray-500">
+                Listado de lecciones del curso
+            </p>
+        {% else %}
+            <p class="mt-1 text-sm text-gray-500">
+                No hay lecciones registradas para este curso
+            </p>
+        {% endif %}
         {% for lesson in lessons %}
             <article class="mt-4 bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm">
                 <div class="flex">
