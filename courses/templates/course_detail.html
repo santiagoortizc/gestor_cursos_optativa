@@ -111,6 +111,13 @@
                     </a>
 
                     <a
+                        href="{% url 'edit_course' course.id %}"
+                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                    >
+                        Editar curso
+                    </a>
+
+                    <a
                         href="{% url 'delete_course' course.id %}"
                         onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?');"
                         class="inline-flex items-center justify-center rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"

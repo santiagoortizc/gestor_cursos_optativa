@@ -40,3 +40,15 @@ def delete_course(request, course_id):
     course = Course.objects.get(id=course_id)
     course.delete()
     return redirect("courses")
+
+def edit_course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    if request.method == "POST":
+        course.title = request.POST.get("title")
+        course.level = request.POST.get("level")
+        course.lessons = request.POST.get("lessons")
+        course.save()
+
+        return redirect("course_detail", course_id=course.id)
+    else:
+        return render(request, "edit_course.html", {"course": course})
