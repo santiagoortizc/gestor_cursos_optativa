@@ -105,7 +105,7 @@
 
                     <a
                         href="{% url 'courses' %}"
-                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                        class="inline-flex mr-auto items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                     >
                         Volver
                     </a>
@@ -115,6 +115,13 @@
                         class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                     >
                         Editar curso
+                    </a>
+                   
+                    <a
+                        href="{% url 'new_lesson' course.id %}"
+                        class="inline-flex items-center justify-center rounded-lg border border-green-200 bg-white px-4 py-2 text-sm font-medium text-green-600 transition hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                    >
+                        Agregar lección
                     </a>
 
                     <a

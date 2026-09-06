@@ -1,0 +1,123 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nueva Lección</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-800 min-h-screen">
+    <main class="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+      <header class="mb-8">
+        <a
+          href="{% url 'course_detail' course.id %}"
+          class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors duration-150"
+        >
+          &larr; Volver a detalle del curso
+        </a>
+        <h1 class="mt-2 text-2xl sm:text-3xl font-semibold text-gray-900">
+          Nueva Lección para {{ course.title }}
+        </h1>
+        <p class="mt-1 text-sm text-gray-500">
+          Completa los datos para registrar una nueva lección
+        </p>
+      </header>
+
+      <div
+        class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm"
+      >
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="space-y-6">
+            <div>
+              <label
+                for="title"
+                class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1"
+              >
+                Título
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                for="duration"
+                class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1"
+              >
+                Duración
+              </label>
+              <input
+                type="number"
+                id="duration"
+                name="duration"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                for="content"
+                class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1"
+              >
+                Contenido
+              </label>
+              <textarea
+                id="content"
+                name="content"
+                rows="4"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              ></textarea>
+            </div>
+
+            <div>
+              <label
+                for="status"
+                class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1"
+              >
+                Estado
+              </label>
+              <select
+                id="status"
+                name="status"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              >
+                {% for value, label in status_choices %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-8 flex items-center gap-3">
+            <button
+              type="submit"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-150"
+            >
+              Crear Lección
+            </button>
+            <a
+              href="{% url 'course_detail' course.id %}"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors duration-150"
+            >
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

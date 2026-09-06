@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from .models import Course
+from .models import Course, Lesson
 
 
 def hello(request):
@@ -44,11 +44,30 @@ def delete_course(request, course_id):
 def edit_course(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.method == "POST":
-        course.title = request.POST.get("title")
-        course.level = request.POST.get("level")
-        course.lessons = request.POST.get("lessons")
-        course.save()
+        title = request.POST.get("title")
+        level = request.POST.get("level")
+        lessons = request.POST.get("lessons")
+        if title and level and lessons:
+            course.title = title
+            course.level = level
+            course.lessons = lessons
+            course.save()
 
         return redirect("course_detail", course_id=course.id)
     else:
         return render(request, "edit_course.html", {"course": course})
+
+def new_lesson(request, course_id):
+    print(f"[Request][{request.method}]")
+    course = Course.objects.get(id=course_id)
+    if request.method == "POST":
+        title = request.POST.get("title")
+        content = request.POST.get("content")
+        duration = request.POST.get("duration")
+        status = request.POST.get("status")
+        if title and content and duration and status:
+            lesson = Lesson(course=course, title=title, content=content, duration=duration, status=status)
+            lesson.save()
+        return redirect("course_detail", course_id=course.id)
+    else:
+        return render(request, "new_lesson.html", {"course": course, "status_choices": Lesson.STATUS_CHOICES})
