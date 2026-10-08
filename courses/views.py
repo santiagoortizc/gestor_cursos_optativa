@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 
 from .models import Course, Lesson
 
@@ -71,3 +72,15 @@ def new_lesson(request, course_id):
         return redirect("course_detail", course_id=course.id)
     else:
         return render(request, "new_lesson.html", {"course": course, "status_choices": Lesson.STATUS_CHOICES})
+
+
+@require_POST
+def update_lesson_status(request, lesson_id):
+    lesson = Lesson.objects.get(id=lesson_id)
+    if lesson.status == "draft":
+        lesson.status = "published"
+    else:
+        lesson.status = "draft"
+    lesson.save()
+
+    return redirect("course_detail", course_id=lesson.course.id)
