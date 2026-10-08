@@ -28,10 +28,14 @@ def new_course(request):
         title = request.POST.get("title")
         level = request.POST.get("level")
         lessons = request.POST.get("lessons")
+        image = request.FILES.get("image")
 
         if title and level and lessons:
-            project = Course(title=title, level=level, lessons=lessons)
-            project.save()
+            course = Course(title=title, level=level, lessons=lessons)
+
+            if image:
+                course.image = image
+            course.save()
 
         return redirect("courses")
     return render(request, "new_course.html")

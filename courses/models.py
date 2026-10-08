@@ -10,6 +10,7 @@ class Course(models.Model):
     title = models.CharField(max_length=100)
     level = models.CharField(max_length=50)
     lessons = models.IntegerField()
+    image = models.ImageField(upload_to='courses', default='courses/logo.png')
 
 class Lesson(models.Model):
     """
