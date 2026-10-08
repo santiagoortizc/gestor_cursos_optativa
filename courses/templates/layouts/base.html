@@ -1,0 +1,72 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Gestor de Cursos{% endblock %}</title>
+
+    <!-- Tailwind CSS vía CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                600: '#2563eb',
+                700: '#1d4ed8',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+  </head>
+  <body class="min-h-screen bg-gray-50 text-gray-900">
+    <nav class="bg-white border-b border-gray-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 grid grid-cols-3 items-center">
+
+        <!-- Logo y nombre -->
+        <div class="flex items-center gap-2">
+          <span
+            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 overflow-hidden"
+          >
+            <img
+              src="{% static 'img/logo.png' %}"
+              alt="Logo"
+              class="w-full h-full object-cover"
+            />
+          </span>
+
+          <span class="font-medium text-gray-700">
+            Gestor
+          </span>
+        </div>
+
+        <!-- Navegación -->
+        <div class="flex items-center justify-center gap-6">
+          <a
+            href="{% url 'home' %}"
+            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-150"
+          >
+            Inicio
+          </a>
+
+          <a
+            href="{% url 'courses' %}"
+            class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-150"
+          >
+            Cursos
+          </a>
+        </div>
+
+      </div>
+    </nav>
+    {% block content %} {% endblock %}
+  </body>
+</html>

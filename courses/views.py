@@ -6,7 +6,7 @@ from .models import Course, Lesson
 
 
 def hello(request):
-    return HttpResponse("Hello, world!")
+    return render(request, "home.html")
 
 
 def about(request):
