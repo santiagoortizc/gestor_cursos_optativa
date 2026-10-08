@@ -65,6 +65,19 @@
           </a>
         </div>
 
+        <!-- Cerrar sesión -->
+        <div class="flex items-center justify-end">
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-150"
+            >
+              Cerrar sesión
+            </button>
+          </form>
+        </div>
+
       </div>
     </nav>
     {% block content %} {% endblock %}

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 from .models import Course, Lesson
 
 
+@login_required
 def hello(request):
     return render(request, "home.html")
 
