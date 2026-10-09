@@ -1,0 +1,112 @@
+{% extends 'layouts/base.html' %} {% block title %}Editar Grupo{% endblock %}
+{% block content %}
+<main class="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+
+  <header class="mb-8">
+    <a href="{% url 'groups' %}"
+       class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors duration-150">
+      &larr; Volver a grupos
+    </a>
+    <h1 class="mt-2 text-2xl sm:text-3xl font-semibold text-gray-900">
+      Editar Grupo
+    </h1>
+    <p class="mt-1 text-sm text-gray-500">Modifica el nombre del grupo y gestiona sus miembros</p>
+  </header>
+
+  <div class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm mb-8">
+
+    {% if errors %}
+    <div class="mb-6 rounded-md bg-red-50 border border-red-200 p-3">
+      <ul class="space-y-1">
+        {% for error in errors %}
+        <li class="text-sm text-red-600">{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'edit_group' group.id %}">
+      {% csrf_token %}
+
+      <div>
+        <label for="name" class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1">
+          Nombre del grupo
+        </label>
+        <input type="text" id="name" name="name" required
+               value="{{ data.name|default:group.name }}"
+               class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </div>
+
+      <div class="mt-8 flex items-center gap-3">
+        <button type="submit"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-150">
+          Guardar Cambios
+        </button>
+        <a href="{% url 'groups' %}"
+           class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors duration-150">
+          Cancelar
+        </a>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+    <section class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+      <h2 class="text-sm font-medium text-gray-900 mb-3">
+        Miembros ({{ members|length }})
+      </h2>
+
+      {% if members %}
+      <ul class="space-y-2">
+        {% for user in members %}
+        <li class="flex items-center justify-between gap-2 text-sm">
+          <span class="text-gray-700 truncate">{{ user.username }}</span>
+          <form method="post" action="{% url 'remove_user_group' group.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <button type="submit"
+                    class="shrink-0 px-2 py-1 text-xs font-medium text-red-600 border border-red-200 rounded-md hover:bg-red-50 transition-colors duration-150">
+              Quitar
+            </button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-gray-400">Este grupo todavía no tiene miembros.</p>
+      {% endif %}
+    </section>
+
+    <section class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+      <h2 class="text-sm font-medium text-gray-900 mb-3">
+        Usuarios disponibles ({{ non_members|length }})
+      </h2>
+
+      {% if non_members %}
+      <ul class="space-y-2">
+        {% for user in non_members %}
+        <li class="flex items-center justify-between gap-2 text-sm">
+          <span class="text-gray-700 truncate">{{ user.username }}</span>
+          <form method="post" action="{% url 'add_user_group' group.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <button type="submit"
+                    class="shrink-0 px-2 py-1 text-xs font-medium text-blue-600 border border-blue-200 rounded-md hover:bg-blue-50 transition-colors duration-150">
+              Agregar
+            </button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-gray-400">No hay más usuarios disponibles para agregar.</p>
+      {% endif %}
+    </section>
+
+  </div>
+
+</main>
+{% endblock %}
