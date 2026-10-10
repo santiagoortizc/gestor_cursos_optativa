@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import Course, Lesson
 
@@ -15,16 +15,19 @@ def about(request):
     return HttpResponse("<h1>About page</h1>")
 
 
+@permission_required('courses.view_course', raise_exception=True)
 def courses(request):
     course = Course.objects.all()
     return render(request, "courses.html", {"courses": course})
 
 
+@permission_required('courses.view_lesson', raise_exception=True)
 def course_detail(request, course_id):
     course = Course.objects.get(id=course_id)
     return render(request, "course_detail.html", {"course": course, "lessons": course.lessons_set.all()})
 
 
+@permission_required('courses.add_course', raise_exception=True)
 def new_course(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -43,11 +46,13 @@ def new_course(request):
     return render(request, "new_course.html")
 
 
+@permission_required('courses.delete_course', raise_exception=True)
 def delete_course(request, course_id):
     course = Course.objects.get(id=course_id)
     course.delete()
     return redirect("courses")
 
+@permission_required('courses.change_course', raise_exception=True)
 def edit_course(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.method == "POST":
@@ -64,6 +69,7 @@ def edit_course(request, course_id):
     else:
         return render(request, "edit_course.html", {"course": course})
 
+@permission_required('courses.add_lesson', raise_exception=True)
 def new_lesson(request, course_id):
     print(f"[Request][{request.method}]")
     course = Course.objects.get(id=course_id)
@@ -81,6 +87,7 @@ def new_lesson(request, course_id):
 
 
 @require_POST
+@permission_required('courses.change_lesson', raise_exception=True)
 def update_lesson_status(request, lesson_id):
     lesson = Lesson.objects.get(id=lesson_id)
     if lesson.status == "draft":

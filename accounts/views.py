@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 from django.contrib.auth import login
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import user_passes_test
 
 def register(request):
@@ -100,4 +101,37 @@ def remove_user_group(request, group_id):
       user = get_object_or_404(User, id=user_id)
       group.user_set.remove(user)
 
-  return redirect('edit_group', group_id=group.id)
+  return redirect('edit_group', group_id=group.id) # type: ignore
+
+@user_passes_test(is_admin) # type: ignore
+def permissions(request):
+  permissions = Permission.objects.all()
+  groups = Group.objects.all()
+
+  if request.POST.get('group'):
+    group_id = request.POST.get('group')
+  else:
+    group_id = request.GET.get('group')
+
+  if group_id:
+    group = get_object_or_404(Group, id=group_id)
+  else:
+    group = groups.first()
+
+  if request.method == 'POST':
+    permissions_ids = request.POST.getlist('permissions')
+    group.permissions.set(permissions_ids)
+
+    return redirect(f"{reverse('permissions')}?group={group.id}") # type: ignore
+
+  if group:
+    group_permissions = set(group.permissions.values_list('id', flat=True))
+  else:
+    group_permissions = set()
+
+  return render(request, 'permissions.html', {
+    'permissions': permissions,
+    'groups': groups,
+    'group': group,
+    'group_permissions': group_permissions,
+  })    

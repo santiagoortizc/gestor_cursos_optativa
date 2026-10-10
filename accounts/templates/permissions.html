@@ -1,0 +1,68 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Permisos{% endblock %}
+{% block content %}
+<main class="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+
+  <header class="mb-8">
+    <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900">Permisos</h1>
+    <p class="mt-1 text-sm text-gray-500">Selecciona un grupo y define qué permisos tiene</p>
+  </header>
+
+  <form action="{% url 'permissions' %}" method="post"
+        class="bg-white border border-gray-200 rounded-lg p-6 sm:p-8 shadow-sm">
+    {% csrf_token %}
+
+    <div>
+      <label for="group" class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-1">
+        Grupo
+      </label>
+      <select name="group" id="group"
+              onchange="window.location.href='?group=' + this.value"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        {% for group_option in groups %}
+        <option value="{{ group_option.id }}" {% if group_option.id == group.id %}selected{% endif %}>
+          {{ group_option.name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mt-8">
+      <h2 class="block text-xs font-medium uppercase tracking-wide text-gray-400 mb-3">
+        Permisos disponibles
+      </h2>
+
+      {% if permissions %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {% for permission in permissions %}
+        <label class="flex items-start gap-3 rounded-md border border-gray-200 px-3 py-2 hover:bg-gray-50 transition-colors duration-150 cursor-pointer">
+          <input type="checkbox" name="permissions" value="{{ permission.id }}"
+                 class="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                 {% if permission.id in group_permissions %}checked{% endif %}>
+          <span class="min-w-0">
+            <span class="block text-sm text-gray-800">{{ permission.name }}</span>
+            <span class="block text-xs text-gray-400 truncate">{{ permission.codename }}</span>
+          </span>
+        </label>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center py-10 border border-dashed border-gray-300 rounded-lg">
+        <p class="text-sm text-gray-500">No hay permisos disponibles.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if group %}
+    <div class="mt-8">
+      <button type="submit"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-150">
+        Guardar permisos
+      </button>
+    </div>
+    {% endif %}
+
+  </form>
+
+</main>
+{% endblock %}
